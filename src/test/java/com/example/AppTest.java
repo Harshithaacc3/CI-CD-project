@@ -1,23 +1,23 @@
 package com.example;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class AppTest {
+class AppTest {
 
     @Test
-    public void testToUpper() {
-        Assert.assertEquals("DEVOPS", App.toUpper("devops"));
+    void testToUpper() {
+        assertEquals("DEVOPS", App.toUpper("DevOps"));
     }
 
     @Test
-    public void testReverse() {
-        Assert.assertEquals("spOveD", App.reverse("DevOps"));
+    void testReverse() {
+        assertEquals("spOveD", App.reverse("DevOps"));
     }
 
     @Test
-    public void testNullInput() {
-        Assert.assertEquals("", App.toUpper(null));
-        Assert.assertEquals("", App.reverse(null));
+    void testNullInput() {
+        assertEquals("", App.toUpper(null));
+        assertEquals("", App.reverse(null));
     }
 }
