@@ -10,7 +10,7 @@ pipeline {
         IMAGE_NAME  = "ci-cd-java"
         VERSION = "1.0.${BUILD_NUMBER}"
         GROUP_ID    = "com.example"
-        ARTIFACT_ID = "string-utils"
+        ARTIFACT_ID = "java-project"
         NEXUS_URL   = "35.154.4.203:30002"
         ECR_REPO    = "426728254540.dkr.ecr.ap-south-1.amazonaws.com/ci-cd"
         GIT_REPO    = "https://github.com/Harshitha1518/CI-CD-using-Argocd.git"
@@ -27,7 +27,8 @@ pipeline {
 
         stage('Sonar Analysis') {
             steps {
-                withSonarQubeEnv('ci-cd-sonar') {
+                withSonarQubeEnv('ci-cd-sonar') 
+                {
                     sh """
                     mvn clean verify sonar:sonar \
                     -Dsonar.projectKey=${PROJECT_KEY} \
