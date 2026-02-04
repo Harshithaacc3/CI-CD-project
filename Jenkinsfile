@@ -13,7 +13,7 @@ pipeline {
         ARTIFACT_ID = "calculator-java"
         NEXUS_URL   = "3.6.223.15:30002"
         ECR_REPO    = "671669616800.dkr.ecr.ap-south-1.amazonaws.com/ci-cd"
-        GIT_REPO    = "https://github.com/Harshitha1518/CI-CD-using-Argocd.git"
+        GIT_REPO    = "https://github.com/Harshithaacc3/CI-CD-using-Argocd.git"
     }
 
     stages {
@@ -110,13 +110,13 @@ pipeline {
         stage('Update ArgoCD Repo') {
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: 'Harshitha1518',
+                    credentialsId: 'Harshithaacc3',
                     usernameVariable: 'GIT_USER',
                     passwordVariable: 'GIT_TOKEN'
                 )]) {
                     sh """
                     rm -rf CI-CD-using-Argocd
-                    git clone https://${GIT_USER}:${GIT_TOKEN}@github.com/Harshitha1518/CI-CD-using-Argocd.git
+                    git clone https://${GIT_USER}:${GIT_TOKEN}@github.com/Harshithaacc3/CI-CD-using-Argocd.git
                     cd CI-CD-using-Argocd
 
                     sed -i 's|image:.*|image: ${ECR_REPO}:${VERSION}|' argocd.yaml
