@@ -21,7 +21,7 @@ pipeline {
         stage('SCM') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/Harshitha1518/CI-CD-project.git'
+                    url: 'https://github.com/Harshithaacc3/CI-CD-project.git'
             }
         }
 
