@@ -119,7 +119,7 @@ pipeline {
                     git clone https://${GIT_USER}:${GIT_TOKEN}@github.com/Harshithaacc3/CI-CD-using-Argocd.git
                     cd CI-CD-using-Argocd
 
-                    sed -i 's|image:.*|image: ${ECR_REPO}:${VERSION}|' argocd.yaml
+                    sed -i 's|image:.*|image: ${ECR_REPO}:${VERSION}|' calculator-app/argocd.yaml
 
                     git config user.name "argouser"
                     git config user.email "argouser@jenkins.com"
