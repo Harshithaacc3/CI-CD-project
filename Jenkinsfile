@@ -6,13 +6,13 @@ pipeline {
     }
 
     environment {
-        PROJECT_KEY = "CI-CD"
-        IMAGE_NAME  = "ci-cd-java"
+        PROJECT_KEY = "Ci-Cd"
+        IMAGE_NAME  = "ci-cd-calculator"
         VERSION = "1.0.${BUILD_NUMBER}"
         GROUP_ID    = "com.example"
         ARTIFACT_ID = "calculator-java"
-        NEXUS_URL   = "35.154.4.203:30002"
-        ECR_REPO    = "426728254540.dkr.ecr.ap-south-1.amazonaws.com/ci-cd"
+        NEXUS_URL   = "3.6.223.15:30002"
+        ECR_REPO    = "671669616800.dkr.ecr.ap-south-1.amazonaws.com/ci-cd"
         GIT_REPO    = "https://github.com/Harshitha1518/CI-CD-using-Argocd.git"
     }
 
@@ -27,7 +27,7 @@ pipeline {
 
         stage('Sonar Analysis') {
             steps {
-                withSonarQubeEnv('ci-cd-sonar') 
+                withSonarQubeEnv('sonarcreds') 
                 {
                     sh """
                     mvn clean verify sonar:sonar \
@@ -61,7 +61,7 @@ pipeline {
                     groupId: "${GROUP_ID}",
                     version: "${VERSION}",
                     repository: 'maven-releases',
-                    credentialsId: 'nexus',
+                    credentialsId: 'nexuscreds',
                     artifacts: [
                         [
                             artifactId: "${ARTIFACT_ID}",
@@ -77,7 +77,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: 'nexus',
+                    credentialsId: 'nexuscreds',
                     usernameVariable: 'NEXUS_USER',
                     passwordVariable: 'NEXUS_PASS'
                 )]) {
@@ -97,10 +97,9 @@ pipeline {
 
         stage('Push Image to ECR') {
             steps {
-                withAWS(credentials: 'k8s-user', region: 'ap-south-1') {
+                withAWS(credentials: 'ecr-user', region: 'ap-south-1') {
                     sh """
-                    aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 426728254540.dkr.ecr.ap-south-1.amazonaws.com
-
+                    aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 671669616800.dkr.ecr.ap-south-1.amazonaws.com
                     docker tag ${IMAGE_NAME}:${VERSION} ${ECR_REPO}:${VERSION}
                     docker push ${ECR_REPO}:${VERSION}
                     """
